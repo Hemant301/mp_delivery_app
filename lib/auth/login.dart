@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 
 import '../apis/authapi.dart';
 import '../const/textFild.dart';
+import '../const/user_cred.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -116,11 +117,35 @@ class _LoginScreenState extends State<LoginScreen> {
                         email: _emailController.text,
                         password: _passwordController.text);
                     print(d);
-                    if (d['response'] == '1') {
-                      // userCred.addUserId(d['accountId']);
-                      // userCred.setUserFilledInfo("DONE");
-                      // userCred.setUserUploadPhoto("DONE");
-                      // print(data);
+                   
+                    if (d['status'].toString() == '1') {
+                     
+                      userCred
+                          .addUserId(d["user_details"]["user_id"].toString());
+                      userCred.addName(d["user_details"]["name"].toString());
+                      userCred.addPhone(d["user_details"]["phone"].toString());
+                      userCred
+                          .addwallet(d["user_details"]["wallet"].toString());
+                      userCred.addvirtual_account_number(d["user_details"]
+                              ["virtual_account_number"]
+                          .toString());
+                      userCred.addvirtual_account_ifsc_code(d["user_details"]
+                              ["virtual_account_ifsc_code"]
+                          .toString());
+                      userCred.addempid(d["user_details"]["empid"].toString());
+                      userCred.addblodgroup(
+                          d["user_details"]["blood_group"].toString());
+                      userCred
+                          .addgender(d["user_details"]["gender"].toString());
+                      userCred.add_date_of_birth(
+                          d["user_details"]["date_of_birth"].toString());
+                      userCred
+                          .addAddres(d["user_details"]["address"].toString());
+                      userCred.addjoining_date(
+                          d["user_details"]["joining_date"].toString());
+                      userCred.addprofile_picture(
+                          d["user_details"]["profile_picture"].toString());
+
                       Future.delayed(Duration(seconds: 0), () {
                         Navigator.pushReplacementNamed(
                           context,
@@ -137,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 16.0);
                     } else {
                       Fluttertoast.showToast(
-                          msg: " ${d['msg']}! ",
+                          msg: " ${d['message']}! ",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
